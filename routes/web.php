@@ -24,6 +24,10 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/admin/receptionist', 'AdminController@addReceptionist')->name('admin.receptionist');
         Route::get('/admin/list', 'AdminController@list')->name('admin.list');
         Route::delete('/admin/{user}', 'AdminController@destroy')->name('admin.destroy');
+        Route::put('/admin/doctor/{doctor}', 'AdminController@updateDoctor')->name('admin.doctor.update');
+        Route::put('/admin/receptionist/{receptionist}', 'AdminController@updateReceptionist')->name('admin.receptionist.update');
+        Route::get('/admin/doctor/{doctor}', 'AdminController@editDoctor')->name('admin.doctor.edit');
+        Route::get('/admin/receptionist/{receptionist}', 'AdminController@editReceptionist')->name('admin.receptionist.edit');
     });
 
     Route::group(['middleware' => ['role.patient']], function() {

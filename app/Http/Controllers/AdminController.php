@@ -49,10 +49,6 @@ class AdminController extends Controller
 
     public function updateDoctor(Doctor $doctor, Request $request)
     {
-        $this->validate($request, [
-            'email' => 'required|string|email|max:255|unique:users'
-        ]);
-        $doctor = new User();
         $doctor->email = $request->input('email');
         $doctor->name = $request->input('name');
         $doctor->specialty = $request->input('specialty');
@@ -62,15 +58,11 @@ class AdminController extends Controller
         $doctor->type = 'App\Doctor';
         $doctor->role_id = 1;
         $doctor->save();
-        return redirect()->back();
+        return redirect()->route('admin.list');
     }
 
     public function updateReceptionist(Receptionist $receptionist, Request $request)
     {
-        $this->validate($request, [
-            'email' => 'required|string|email|max:255|unique:users'
-        ]);
-        $receptionist = new User();
         $receptionist->email = $request->input('email');
         $receptionist->name = $request->input('name');
         if($request->input('password')) {
@@ -79,7 +71,17 @@ class AdminController extends Controller
         $receptionist->type = 'App\Receptionist';
         $receptionist->role_id = 2;
         $receptionist->save();
-        return redirect()->back();
+        return redirect()->route('admin.list');
+    }
+
+    public function editReceptionist(Receptionist $receptionist)
+    {
+        return view('admin.edit-receptionist', compact('receptionist'));
+    }
+
+    public function editDoctor(Doctor $doctor)
+    {
+        return view('admin.edit-doctor', compact('doctor'));
     }
 
     public function list()

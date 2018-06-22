@@ -24,6 +24,7 @@
                             <td>{{ $d->specialty }}</td>
                             <td>{{ $d->email }}</td>
                             <td>
+                                <a href="{{ route('admin.doctor.edit', [$d->id]) }}"><button class="btn btn-info btn-sm">Modifier</button></a>
                                 <a href="#"
                                    onclick="event.preventDefault();
                                                      document.getElementById('destroy-form-{{ $d->id }}').submit();">
@@ -59,6 +60,7 @@
                             <td>{{ $r->name }}</td>
                             <td>{{ $r->email }}</td>
                             <td>
+                                <a href="{{ route('admin.receptionist.edit', [$r->id]) }}"><button class="btn btn-info btn-sm">Modifier</button></a>
                                 <a href="#"
                                    onclick="event.preventDefault();
                                                      document.getElementById('destroy-form-{{ $r->id }}').submit();">
