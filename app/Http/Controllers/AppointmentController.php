@@ -10,6 +10,7 @@ use App\Treatment;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
+use App\Doctor;
 
 class AppointmentController extends Controller
 {
@@ -117,7 +118,7 @@ class AppointmentController extends Controller
         return view('done', compact('message'));
     }
 
-    public function freeHours($date)
+    public function freeHours($date, $doctor)
     {
         //dd(Appointment::whereDate('appointment_date', $date)->whereNotNull('confirmation_date')->get(['appointment_date'])->toArray());
         $freeHours = [];
@@ -128,7 +129,7 @@ class AppointmentController extends Controller
 
         $takenHours = array_map(function($a) {
             return date('H:i', strtotime($a['appointment_date']));
-        }, Appointment::whereDate('appointment_date', $date)->whereNotNull('confirmation_date')->get(['appointment_date'])->toArray());
+        }, Appointment::where('doctor_id', $doctor)->whereDate('appointment_date', $date)->whereNotNull('confirmation_date')->get(['appointment_date'])->toArray());
 
         $result = [];
         foreach(array_diff($freeHours, $takenHours) as $h) {
@@ -141,19 +142,21 @@ class AppointmentController extends Controller
 
     public function calendar()
     {
+        $doctors = Doctor::where('role_id', 1)->get();
         $tmp = Appointment::whereNotNull('confirmation_date')->orderBy('appointment_date')->get();
         $appointments = [];
         foreach($tmp as $a) {
             $t = new \stdClass();
-            $t->title = $a->patient->name . ($a->reason ? ' (motif: ' . $a->reason . ')' : '');
+            $t->title = $a->patient->name . '  avec Dr. ' . $a->doctor->name . ($a->reason ? ' (motif: ' . $a->reason . ')' : '');
             $t->start = $a->appointment_date->format('Y-m-d\\TH:i:s');
+            $t->doctorId = $a->doctor->id;
             $appointments[] = $t;
         }
 
 
         $appointments = json_encode($appointments);
 
-        return view('appointment.calendar', compact('appointments'));
+        return view('appointment.calendar', compact('appointments', 'doctors'));
     }
 
 

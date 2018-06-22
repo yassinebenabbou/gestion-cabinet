@@ -16,7 +16,7 @@
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/home', 'HomeController@index')->name('home');
-    Route::get('/free/{date}', 'AppointmentController@freeHours')->name('appointment.free');
+    Route::get('/free/{date}/{doctor}', 'AppointmentController@freeHours')->name('appointment.free');
 
     Route::group(['middleware' => ['role.admin']], function() {
         Route::get('/admin', 'AdminController@home')->name('admin.home');
@@ -52,7 +52,7 @@ Route::group(['middleware' => ['auth']], function () {
 
         Route::get('/patients/{id}/history', 'PatientController@history')->name('patient.history');
 
-        Route::get('calendar', 'AppointmentController@calendar')->name('appointment.calendar');
+        Route::get('calendar', 'AppointmentController@calendar')->name('calendar');
     });
 
     Route::group(['middleware' => ['role.doctor']], function() {

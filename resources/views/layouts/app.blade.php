@@ -57,8 +57,12 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('patient.index') }}">Patients</a>
-                        </li><li class="nav-item">
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ route('receptionist.search') }}">Chercher</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href="{{ route('calendar') }}">Calendrier</a>
                         </li>
                         @elserole('doctor')
                         <li class="nav-item">
@@ -66,6 +70,9 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('patient.index') }}">Patients</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('calendar') }}">Calendrier</a>
                         </li>
                         @elserole('admin')
                         <li class="nav-item">
@@ -132,6 +139,7 @@
                 $(tab + "-tab").attr("aria-selected", "true").addClass("active");
             }
 
+            var doctor = $("#doctor");
             var year = $("#year");
             var month = $("#month");
             var day = $("#day");
@@ -139,9 +147,8 @@
 
             function getFreeHours() {
                 var d = year.val() + "-" + month.val() + "-" + day.val();
-                $.getJSON("/free/" + d, function(result){
+                $.getJSON("/free/" + d + "/" + doctor.val(), function(result){
                     hour.empty();
-                    console.log(result);
                     $.each(result, function(i, item){
                         hour.append($('<option>', {
                             value: item.hour + ":00",
@@ -150,8 +157,9 @@
                     });
                 });
             }
-            if(hour.length && day.length && month.length && year.length) {
+            if(hour.length && day.length && month.length && year.length && doctor.length) {
                 getFreeHours();
+                doctor.change(getFreeHours);
                 year.change(getFreeHours);
                 month.change(getFreeHours);
                 day.change(getFreeHours);

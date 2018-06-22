@@ -64,12 +64,18 @@
                     </li><li class="nav-item">
                         <a class="nav-link" href="{{ route('receptionist.search') }}">Chercher</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('calendar') }}">Calendirer</a>
+                    </li>
                     @elserole('doctor')
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('doctor.home') }}">Rendez vous</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('patient.index') }}">Patients</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('calendar') }}">Calendirer</a>
                     </li>
                     @elserole('admin')
                     <li class="nav-item">
@@ -118,6 +124,19 @@
     </nav>
 
     <main class="py-4">
+        <form role="form" class="form-inline col-md-4" style="margin: auto; margin-bottom: 10px">
+            @csrf
+            <div class="form-group">
+                <label for="doctor" style="margin-right: 10px">Médecin: </label>
+                <select type="doctor" class="form-control" id="doctor">
+                    <option value="all">Tous</option>
+                    @foreach($doctors as $d)
+                    <option value="{{ $d->id }}">{{ $d->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+        </form>
         <div id='calendar'></div>
     </main>
 </div>
@@ -133,6 +152,8 @@
     $(document).ready(function() {
 
         var appointments = JSON.parse('{!! $appointments !!}');
+
+        var doctor = $("#doctor");
 
         $('#calendar').fullCalendar({
             header: {
@@ -154,7 +175,15 @@
             navLinks: true, // can click day/week names to navigate views
             editable: false,
             eventLimit: true, // allow "more" link when too many events
-            events: appointments
+            events: appointments,
+            eventRender: function eventRender( event, element, view ) {
+                console.log(['all', ""+event.doctorId].indexOf(doctor.val()) >= 0);
+                return ['all', ""+event.doctorId].indexOf(doctor.val()) >= 0;
+            }
+        });
+
+        doctor.on('change',function(){
+            $('#calendar').fullCalendar('rerenderEvents');
         });
 
     });
