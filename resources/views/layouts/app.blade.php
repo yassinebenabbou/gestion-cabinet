@@ -66,6 +66,14 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('patient.index') }}">Patients</a>
+                        </li>
+                        @elserole('admin')
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admin.home') }}">Acceuil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admin.list') }}">Médecins-Secrétaire</a>
+                        </li>
                         @endrole
                     </ul>
 
@@ -111,8 +119,45 @@
     </div>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/jquery-3.3.1.slim.min.js') }}" defer></script>
-    <script src="{{ asset('js/popper.min.js') }}" defer></script>
-    <script src="{{ asset('js/bootstrap.min.js') }}" defer></script>
+    <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ asset('js/popper.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script>
+        $(function(){
+            var tab = document.location.hash;
+            if(tab) {
+                $(".tab-pane").removeClass("active show");
+                $("#nav-details-tab").prop("aria-selected", "false").removeClass("active");
+                $(tab).addClass("active show");
+                $(tab + "-tab").attr("aria-selected", "true").addClass("active");
+            }
+
+            var year = $("#year");
+            var month = $("#month");
+            var day = $("#day");
+            var hour = $("#hour");
+
+            function getFreeHours() {
+                var d = year.val() + "-" + month.val() + "-" + day.val();
+                $.getJSON("/free/" + d, function(result){
+                    hour.empty();
+                    console.log(result);
+                    $.each(result, function(i, item){
+                        hour.append($('<option>', {
+                            value: item.hour + ":00",
+                            text : item.hour
+                        }));
+                    });
+                });
+            }
+            if(hour.length && day.length && month.length && year.length) {
+                getFreeHours();
+                year.change(getFreeHours);
+                month.change(getFreeHours);
+                day.change(getFreeHours);
+            }
+
+        });
+    </script>
 </body>
 </html>

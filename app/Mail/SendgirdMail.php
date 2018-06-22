@@ -31,7 +31,7 @@ class SendgirdMail
     {
         $this->email->setFrom("rdv@cabinet.ma", "Cabinet");
         $this->email->setSubject($this->notification->subject);
-        $this->email->addTo($this->notification->patient->email, $this->notification->patient->name);
+        $this->email->addTo($this->notification->appointment->patient->email, $this->notification->appointment->patient->name);
         $this->email->addContent(
             "text/html", "<strong>{$this->notification->content}</strong>"
         );

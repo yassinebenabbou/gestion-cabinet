@@ -34,6 +34,7 @@ class ReceptionistController extends Controller
         $a->patient_id = $request->input('patient');
         $a->doctor_id = $request->input('doctor');
         $a->receptionist_id = Auth::user()->id;
+        $a->reason = $request->input('reason');
         $a->confirmation_date = date('Y-m-d H:i:s');
         $a->save();
         return redirect()->route('appointment.show', ['appointment' => $a->id]);
@@ -50,6 +51,7 @@ class ReceptionistController extends Controller
         $u->phone = $request->input('phone');
         $u->password = bcrypt($request->input('password'));
         $u->type = 'App\Patient';
+        $u->role_id = 3;
         $u->save();
         $message = 'Patient ajouté avec succés.';
         return view('done', compact('message'));

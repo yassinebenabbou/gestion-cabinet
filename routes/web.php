@@ -16,6 +16,15 @@
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('/free/{date}', 'AppointmentController@freeHours')->name('appointment.free');
+
+    Route::group(['middleware' => ['role.admin']], function() {
+        Route::get('/admin', 'AdminController@home')->name('admin.home');
+        Route::post('/admin/doctor', 'AdminController@addDoctor')->name('admin.doctor');
+        Route::post('/admin/receptionist', 'AdminController@addReceptionist')->name('admin.receptionist');
+        Route::get('/admin/list', 'AdminController@list')->name('admin.list');
+        Route::delete('/admin/{user}', 'AdminController@destroy')->name('admin.destroy');
+    });
 
     Route::group(['middleware' => ['role.patient']], function() {
         Route::get('/patient', 'PatientController@home');
@@ -40,16 +49,20 @@ Route::group(['middleware' => ['auth']], function () {
 
         Route::get('/patients/{user}', 'PatientController@show')->name('patient.show')->where('user', '[0-9]+');
         Route::get('/patients', 'PatientController@index')->name('patient.index');
+
+        Route::get('/patients/{id}/history', 'PatientController@history')->name('patient.history');
+
+        Route::get('calendar', 'AppointmentController@calendar')->name('appointment.calendar');
     });
 
     Route::group(['middleware' => ['role.doctor']], function() {
         Route::get('/doctor', 'DoctorController@home')->name('doctor.home');
 
-        Route::get('/appointments/{appointment}/consultation', 'ConsultationController@create')->name('appointment.consultation');
         Route::post('/appointments/{appointment}/consultation', 'ConsultationController@store')->name('consultation.store');
+        Route::put('/consultations/{consultation}', 'ConsultationController@update')->name('consultation.update');
 
-        Route::get('/appointments/{appointment}/treatment', 'AppointmentController@listTreatments')->name('appointment.listTreatments');
-        Route::post('/appointments/{appointment}/treatment', 'AppointmentController@attachTreatment')->name('appointment.treatment');
+        Route::post('/appointments/{appointment}/treatment', 'TreatmentController@attach')->name('appointment.treatment.attach');
+        Route::delete('/appointments/{appointment}/treatment/{treatment}', 'TreatmentController@detach')->name('appointment.treatment.detach');
     });
 
 

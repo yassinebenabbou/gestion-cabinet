@@ -64,6 +64,10 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label for="reason">Motif:</label>
+                            <input name="reason" class="form-control" id="reason" value="{{ $appointment->reason }}"/>
+                        </div>
                         @role('patient')
                         <div class="form-group">
                             <label for="state">Etat:</label>

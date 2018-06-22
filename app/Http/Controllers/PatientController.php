@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Appointment;
+use App\Patient;
 use App\User;
 use Auth;
 use Illuminate\Http\Request;
@@ -40,16 +41,10 @@ class PatientController extends Controller
 
     public function history($id)
     {
-        $user = User::with('appointments.consultation')->with('appointments.treatments')->where('id', $id);
-        $history = [];
-        foreach($user->appointments as $a) {
-            $history[] = $a;
-            foreach($a->treatments as $t) {
-                $history[] = $t;
-            }
-        }
+        $patient = Patient::with('appointments.consultation')->with('appointments.treatments')->find($id);
 
-        return view('patient.appointments', compact('user', 'history'));
+
+        return view('patient.history', compact('patient'));
     }
 
     public function profile()

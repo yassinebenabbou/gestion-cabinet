@@ -31,6 +31,13 @@ class ConsultationController extends Controller
         $c->appointment_id = $appointment;
         $c->comment = $request->input('comment');
         $c->save();
-        return redirect()->route('appointment.show', [$appointment]);
+        return redirect()->route('appointment.show', [$appointment, '#nav-consultation']);
+    }
+
+    public function update(Consultation $consultation, Request $request)
+    {
+        $consultation->comment = $request->input('comment');
+        $consultation->save();
+        return redirect()->route('appointment.show', [$consultation->appointment_id, '#nav-consultation']);
     }
 }

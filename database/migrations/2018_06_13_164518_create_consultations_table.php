@@ -17,7 +17,7 @@ class CreateConsultationsTable extends Migration
             $table->increments('id');
             $table->text('comment');
             $table->unsignedInteger('appointment_id');
-            $table->foreign('appointment_id')->references('id')->on('appointments');
+            $table->foreign('appointment_id')->references('id')->on('appointments')->onDelete('cascade');
             $table->timestamps();
         });
     }

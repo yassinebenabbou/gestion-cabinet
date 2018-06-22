@@ -6,18 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Notification extends Model
 {
-    public function doctor()
+    public function appointment()
     {
-        return $this->belongsTo('App\Doctor', 'doctor_id');
+        return $this->belongsTo('App\Appointment');
     }
 
-    public function receptionist()
-    {
-        return $this->belongsTo('App\Receptionist', 'receptionist_id');
-    }
-
-    public function patient()
-    {
-        return $this->belongsTo('App\Patient', 'patient_id');
-    }
 }

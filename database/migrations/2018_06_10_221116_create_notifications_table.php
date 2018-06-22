@@ -15,15 +15,11 @@ class CreateNotificationsTable extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('doctor_id');
-            $table->foreign('doctor_id')->references('id')->on('users');
-            $table->unsignedInteger('receptionist_id');
-            $table->foreign('receptionist_id')->references('id')->on('users');
+            $table->unsignedInteger('appointment_id');
+            $table->foreign('appointment_id')->references('id')->on('appointments')->onDelete('cascade');
             $table->string('subject');
             $table->dateTime('date')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->text('content');
-            $table->unsignedInteger('patient_id');
-            $table->foreign('patient_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

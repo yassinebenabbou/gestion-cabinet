@@ -14,6 +14,7 @@
                                 <th>Patient</th>
                                 <th>Date / Heure</th>
                                 <th>Médecin</th>
+                                <th>Motif</th>
                                 <th>Confirmé</th>
                                 <th></th>
                             </tr>
@@ -24,9 +25,16 @@
                                 <td>{{ $a->patient->name }}</td>
                                 <td>{{ $a->appointment_date->format('j F Y à H\\hi') }}</td>
                                 <td>{{ $a->doctor->name }}</td>
+                                <td>{{ $a->reason }}</td>
                                 <td>{{ $a->isConfirmed() ? 'Oui' : 'Non' }}</td>
                                 <td>
-                                    <a href="{{ route('appointment.edit', [$a->id]) }}"><button class="btn btn-info btn-sm">Editer</button></a>
+                                    <a href="{{ route('appointment.edit', [$a->id]) }}"><button class="btn btn-info btn-sm">
+                                            @if($a->isConfirmed())
+                                            Modifier
+                                            @else
+                                            Confirmer
+                                            @endif
+                                        </button></a>
                                     <a href="{{ route('appointment.destroy', [$a->id]) }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('destroy-form-{{ $a->id }}').submit();">
@@ -37,11 +45,11 @@
                                         @method('DELETE')
                                         @csrf
                                     </form>
-                                    @if($a->isConfirmed())
                                     @role('receptionist')
+                                    @if($a->isConfirmed())
                                     <a href="{{ route('appointment.remind', [$a->id]) }}"><button class="btn btn-primary btn-sm">Rappel</button></a>
-                                    @endrole
                                     @endif
+                                    @endrole
                                 </td>
                             </tr>
                             @endforeach

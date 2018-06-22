@@ -23,6 +23,8 @@ class HomeController extends Controller
                 return redirect('/receptionist'); break;
             case Role::Doctor:
                 return redirect('/doctor'); break;
+            case Role::Admin:
+                return redirect('/admin'); break;
         }
         return redirect('/');
     }

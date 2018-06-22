@@ -24,16 +24,17 @@
                             <td>{{ $p->phone }}</td>
                             <td>{{ $p->email }}</td>
                             <td>
-                                <a href="{{ route('patient.show', [$p->id]) }}"><button class="btn btn-info btn-sm">Editer</button></a>
+                                <a href="{{ route('patient.show', [$p->id]) }}"><button class="btn btn-info btn-sm">Modifier</button></a>
                                 <a href="#" style="display: none"
                                    onclick="event.preventDefault();
-                                                     document.getElementById('destroy-form').submit();">
+                                                     document.getElementById('destroy-form-{{ $p->id }}').submit();">
                                     <button class="btn btn-danger btn-sm">Supprimer</button>
                                 </a>
-                                <form id="destroy-form" action="#" method="POST" style="display: none;">
+                                <form id="destroy-form-{{ $p->id }}" action="#" method="POST" style="display: none;">
                                     @method('DELETE')
                                     @csrf
                                 </form>
+                                <a href="{{ route('patient.history', [$p->id]) }}"><button class="btn btn-info btn-sm">Historique</button></a>
                             </td>
                         </tr>
                         @endforeach

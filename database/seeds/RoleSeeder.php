@@ -13,7 +13,7 @@ class RoleSeeder extends Seeder
     public function run()
     {
 
-        $roles = [Role::Doctor, Role::Receptionist, Role::Patient];
+        $roles = [Role::Doctor, Role::Receptionist, Role::Patient, Role::Admin];
         foreach($roles as $r) {
             $role = new Role();
             $role->name = "{$r}";

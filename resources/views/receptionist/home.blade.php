@@ -92,12 +92,12 @@
                             <div class="col-md-4">
                                 <label for="hour">Heure</label>
                                 <select name="hour" class="form-control" id="hour">
-                                    @for($i = 9; $i <= 16; $i++)
-                                    <option value="{{ $i }}:00:00">{{ $i }}h00</option>
-                                    <option value="{{ $i }}:30:00">{{ $i }}h30</option>
-                                    @endfor
                                 </select>
                             </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="reason">Motif (facultatif):</label>
+                            <input name="reason" class="form-control" id="reason" />
                         </div>
                         <button type="submit" class="btn btn-primary">Prendre Rendez Vous</button>
                     </form>

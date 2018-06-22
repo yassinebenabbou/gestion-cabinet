@@ -41,6 +41,6 @@ class Appointment extends Model
 
     public function treatments()
     {
-        return $this->belongsToMany(    'App\Treatment');
+        return $this->belongsToMany(    'App\Treatment')->withPivot('comment');
     }
 }

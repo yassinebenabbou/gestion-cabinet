@@ -8,7 +8,7 @@
                 <div class="card-header">Ajouter un patient</div>
 
                 <div class="card-body col-md-8">
-                    <form action="{{ route('patient.update', [$user->id]) }}" role="form" class="form-horizontal" method="POST">
+                    <form action="{{ route('admin.doctor.update', [$user->id]) }}" role="form" class="form-horizontal" method="POST">
                         @csrf
                         @method('PUT')
                         <div class="form-group">

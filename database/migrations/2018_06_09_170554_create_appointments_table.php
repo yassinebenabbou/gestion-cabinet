@@ -17,13 +17,14 @@ class CreateAppointmentsTable extends Migration
             $table->increments('id');
             $table->dateTime('appointment_date');
             $table->unsignedInteger('patient_id');
-            $table->foreign('patient_id')->references('id')->on('users');
+            $table->foreign('patient_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedInteger('doctor_id')->nullable();
-            $table->foreign('doctor_id')->references('id')->on('users');
+            $table->foreign('doctor_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedInteger('receptionist_id')->nullable();
-            $table->foreign('receptionist_id')->references('id')->on('users');
+            $table->foreign('receptionist_id')->references('id')->on('users')->onDelete('cascade');
             $table->dateTime('confirmation_date')->nullable();
             $table->dateTime('reminder_date')->nullable();
+            $table->string('reason')->nullable();
             $table->timestamps();
         });
     }

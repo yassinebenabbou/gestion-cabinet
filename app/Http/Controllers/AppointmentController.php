@@ -25,6 +25,7 @@ class AppointmentController extends Controller
         $a = new Appointment();
         $a->appointment_date = $request->input('year').'-'.$request->input('month').'-'.$request->input('day').' '.$request->input('hour');
         $a->patient_id = Auth::user()->id;
+        $a->reason = $request->input('reason');
         $a->doctor_id = $request->input('doctor');
         $a->save();
         return redirect()->route('appointment.show', ['appointment' => $a->id]);
@@ -32,7 +33,8 @@ class AppointmentController extends Controller
 
     public function show(Appointment $appointment)
     {
-        return view('appointment.show', compact('appointment'));
+        $treatments = Treatment::all();
+        return view('appointment.show', compact('appointment', 'treatments'));
     }
 
     public function confirmed()
@@ -61,6 +63,7 @@ class AppointmentController extends Controller
         };
         $appointment->appointment_date = $newDate;
         $appointment->confirmation_date = null;
+        $appointment->reason = $request->input('reason');
         $appointment->save();
         $message = "Rendez vous changé. Vous recevrez un email une fois confirmé.";
         return view('done', compact('message'));
@@ -114,10 +117,44 @@ class AppointmentController extends Controller
         return view('done', compact('message'));
     }
 
-    public function listTreatments(Appointment $appointment)
+    public function freeHours($date)
     {
-        $treatments = Treatment::all();
-        return view('appointment.treatment', compact('treatments', 'appointment'));
+        //dd(Appointment::whereDate('appointment_date', $date)->whereNotNull('confirmation_date')->get(['appointment_date'])->toArray());
+        $freeHours = [];
+        for($i = 9; $i <= 17; $i ++) {
+            $freeHours[] =  sprintf('%02d', $i) . ":00";
+            $freeHours[] =  sprintf('%02d', $i) . ":30";
+        }
+
+        $takenHours = array_map(function($a) {
+            return date('H:i', strtotime($a['appointment_date']));
+        }, Appointment::whereDate('appointment_date', $date)->whereNotNull('confirmation_date')->get(['appointment_date'])->toArray());
+
+        $result = [];
+        foreach(array_diff($freeHours, $takenHours) as $h) {
+            $oh = new \stdClass();
+            $oh->hour = $h;
+            $result[] = $oh;
+        }
+        return response()->json($result, 200);
     }
+
+    public function calendar()
+    {
+        $tmp = Appointment::whereNotNull('confirmation_date')->orderBy('appointment_date')->get();
+        $appointments = [];
+        foreach($tmp as $a) {
+            $t = new \stdClass();
+            $t->title = $a->patient->name . ($a->reason ? ' (motif: ' . $a->reason . ')' : '');
+            $t->start = $a->appointment_date->format('Y-m-d\\TH:i:s');
+            $appointments[] = $t;
+        }
+
+
+        $appointments = json_encode($appointments);
+
+        return view('appointment.calendar', compact('appointments'));
+    }
+
 
 }
