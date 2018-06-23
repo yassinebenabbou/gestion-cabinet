@@ -28,6 +28,12 @@ Route::group(['middleware' => ['auth']], function () {
         Route::put('/admin/receptionist/{receptionist}', 'AdminController@updateReceptionist')->name('admin.receptionist.update');
         Route::get('/admin/doctor/{doctor}', 'AdminController@editDoctor')->name('admin.doctor.edit');
         Route::get('/admin/receptionist/{receptionist}', 'AdminController@editReceptionist')->name('admin.receptionist.edit');
+
+        Route::get('/treatments/{treatment}', 'TreatmentController@edit')->name('treatment.edit');
+        Route::post('/treatments', 'TreatmentController@store')->name('treatment.store');
+        Route::put('/treatments/{treatment}', 'TreatmentController@update')->name('treatment.update');
+        Route::delete('/treatments/{treatment}', 'TreatmentController@destroy')->name('treatment.destroy');
+        Route::get('/treatment', 'TreatmentController@index')->name('treatment.index');
     });
 
     Route::group(['middleware' => ['role.patient']], function() {

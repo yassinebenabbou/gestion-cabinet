@@ -81,6 +81,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('admin.list') }}">Médecins-Secrétaire</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('treatment.index') }}">Soins</a>
+                        </li>
                         @endrole
                     </ul>
 
