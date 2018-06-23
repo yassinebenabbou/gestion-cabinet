@@ -57,7 +57,7 @@ class PatientController extends Controller
     public function update(User $user, Request $request)
     {
         $auth = Auth::user();
-        if(!($auth->hasRoleReceptionist()) && ($auth->id != $user->id)) {
+        if(!($auth->hasRoleReceptionist() || $auth->hasRoleDoctor()) && ($auth->id != $user->id)) {
             return response('Unauthorized.', 401);
         }
         $user->name = $request->input('name');
@@ -69,7 +69,7 @@ class PatientController extends Controller
         }
         $user->save();
 
-        if($auth->hasRoleReceptionist()){
+        if($auth->hasRoleReceptionist() || $auth->hasRoleDoctor()){
             return redirect()->route('patient.show', [$user->id]);
         }
         return redirect()->route('patient.profile');

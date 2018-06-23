@@ -18,6 +18,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/free/{date}/{doctor}', 'AppointmentController@freeHours')->name('appointment.free');
 
+    Route::put('/patients/{user}', 'PatientController@update')->name('patient.update')->where('user', '[0-9]+');
+
     Route::group(['middleware' => ['role.admin']], function() {
         Route::get('/admin', 'AdminController@home')->name('admin.home');
         Route::post('/admin/doctor', 'AdminController@addDoctor')->name('admin.doctor');
@@ -39,9 +41,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['middleware' => ['role.patient']], function() {
         Route::get('/patient', 'PatientController@home');
         Route::get('/patients/profile', 'PatientController@profile')->name('patient.profile');
-        Route::put('/patients/{user}', 'PatientController@update')->name('patient.update')->where('user', '[0-9]+');
         Route::get('/patient/appointments', 'PatientController@appointments')->name('patient.appointments');
-
     });
 
     Route::group(['middleware' => ['role.receptionist']], function() {
@@ -96,17 +96,6 @@ Route::group(['middleware' => ['guest']], function () {
 });
 
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
-
-
-
-Route::get('/sendemail2', function () {
-
-$email = new \App\Mail\SendgirdMail(['name' => 'yassine', 'date' => 'today', 'email' => 'benabbou.yassine2@gmail.com']);
-$email->send();
-
-return "done";
-
-});
 
 
 
