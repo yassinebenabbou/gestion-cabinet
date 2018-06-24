@@ -25,7 +25,7 @@ class CreateTreatmentsTable extends Migration
             $table->unsignedInteger('treatment_id');
             $table->unsignedInteger('appointment_id');
             $table->foreign('treatment_id')->references('id')->on('treatments')->onDelete('cascade');
-            $table->foreign('appointment_id')->references('id')->on('appointments')->onDelete('cascade');
+        $table->foreign('appointment_id')->references('id')->on('appointments')->onDelete('cascade');
             $table->primary(['treatment_id', 'appointment_id']);
             $table->string('comment')->nullable();
         });

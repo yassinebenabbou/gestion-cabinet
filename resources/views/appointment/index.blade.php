@@ -32,7 +32,11 @@
                                             @if($a->isConfirmed())
                                             Modifier
                                             @else
+                                            @role('patient')
+                                            Modifier
+                                            @else
                                             Confirmer
+                                            @endrole
                                             @endif
                                         </button></a>
                                     <a href="{{ route('appointment.destroy', [$a->id]) }}"
