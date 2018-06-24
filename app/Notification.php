@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Notification extends Model
 {
-    private $id
+    private $id;
     private $appointment;
     private $subject;
     private $date;
