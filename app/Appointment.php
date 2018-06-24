@@ -15,7 +15,7 @@ class Appointment extends Model
     private $reminder_date;
     private $reason;
     private $patient;
-    private $dctor;
+    private $doctor;
     private $receptionist;
     private $consultation;
     private $treatments;
