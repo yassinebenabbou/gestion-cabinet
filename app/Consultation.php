@@ -6,10 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Consultation extends Model
 {
-    public function patient()
-    {
-        $this->belongsTo('App\User', 'patient_id');
-    }
+    private $id;
+    private $comment;
+    private $appointment;
 
     public function appointment()
     {

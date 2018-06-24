@@ -49,6 +49,7 @@ class ReceptionistController extends Controller
         $u->email = $request->input('email');
         $u->name = $request->input('name');
         $u->phone = $request->input('phone');
+        $u->CIN = $request->input('CIN');
         $u->password = bcrypt($request->input('password'));
         $u->type = 'App\Patient';
         $u->role_id = 3;

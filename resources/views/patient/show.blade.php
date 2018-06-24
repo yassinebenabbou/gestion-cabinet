@@ -29,6 +29,10 @@
                             <input type="text" class="form-control" id="phone" name="phone" value="{{ $user->phone }}" required>
                         </div>
                         <div class="form-group">
+                            <label for="CIN">CIN:</label>
+                            <input type="text" class="form-control" id="CIN" name="CIN" value="{{ $user->CIN }}" required>
+                        </div>
+                        <div class="form-group">
                             <label for="password">Mot de passe:</label>
                             <input type="password" class="form-control" id="password" name="password">
                         </div>

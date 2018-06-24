@@ -9,6 +9,17 @@ class Appointment extends Model
 
     protected $dates = ['created_at', 'updated_at', 'confirmation_date', 'appointment_date', 'reminder_date'];
 
+    private $id;
+    private $appointment_date;
+    private $confirmation_date;
+    private $reminder_date;
+    private $reason;
+    private $patient;
+    private $dctor;
+    private $receptionist;
+    private $consultation;
+    private $treatments;
+
     public function patient()
     {
         return $this->belongsTo('App\User', 'patient_id');

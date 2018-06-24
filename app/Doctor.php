@@ -6,6 +6,9 @@ class Doctor extends User
 {
     protected $table = 'users';
 
+    private $specialty;
+    private $appointments;
+
     public function appointments()
     {
         return $this->hasMany('App\Appointment', 'doctor_id')

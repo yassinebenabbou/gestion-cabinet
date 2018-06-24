@@ -16,7 +16,7 @@
                         @csrf
                         @method('PUT')
                         <div class="form-group">
-                            <label for="patient">Patient:</label>
+                            <label for="patient">Patient: (<a href="{{ route('patient.show', [$appointment->patient->id]) }}">Accéder au profile</a>)</label>
                             <input type="patient" class="form-control" id="patient" disabled value="{{ $appointment->patient->name }}">
                         </div>
                         <div class="form-group">

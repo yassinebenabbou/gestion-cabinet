@@ -63,6 +63,7 @@ class PatientController extends Controller
         $user->name = $request->input('name');
         $user->email = $request->input('email');
         $user->phone = $request->input('phone');
+        $user->CIN = $request->input('CIN');
         $newPassword = $request->input('password');
         if(!empty($newPassword)) {
             $user->password = bcrypt($newPassword);
