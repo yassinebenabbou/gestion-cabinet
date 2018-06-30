@@ -37,12 +37,12 @@ class Appointment extends Model
 
     public function isConfirmed()
     {
-        return !empty($this->confirmation_date);
+        return !empty($this->__get('confirmation_date'));
     }
 
     public function isReminded()
     {
-        return !empty($this->reminder_date);
+        return !empty($this->__get('reminder_date'));
     }
 
     public function consultation()
